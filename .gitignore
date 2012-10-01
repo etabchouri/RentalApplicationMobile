@@ -40,6 +40,9 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+*.sln
+robots.txt
+cordova*.js
 
 # Build results
 [Dd]ebug/
