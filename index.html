@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
+    <title>Rental Application</title>
+
+    <!-- WinJS references -->
+    <!--<link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />-->
+    <!--<script src="//Microsoft.WinJS.1.0/js/base.js"></script>-->
+    <!--<script src="//Microsoft.WinJS.1.0/js/ui.js"></script>-->
+
+    <!-- PhoneGap references -->
+  <script src="cordova-2.0.0.js"></script>
+  
+    <!-- jQuery references -->
+    <script src="scripts/jquery-1.8.2.min.js"></script>
+
+    <!-- Knockout references -->
+    <script src="scripts/knockout-2.1.0.js"></script>
+
+    <!-- Initialization references -->
+    <script src="scripts/init.js"></script>
+
+    <!-- jQuery Mobile references -->
+    <link href="content/jquery.mobile.structure-1.1.1.min.css" rel="stylesheet" />
+    <link href="content/jquery.mobile-1.1.1.min.css" rel="stylesheet" />
+    <link href="content/themes/dark/dark.css" rel="stylesheet" />
+
+    <script src="scripts/jquery.mobile-1.1.1.min.js"></script>
+</head>
+<body>
+    <script src="scripts/home.js"></script>
+
+    <div id="home" data-role="page">
+        <div data-role="header">
+            <h1>Rental Application</h1>
+        </div>
+
+        <div data-role="collapsible-set">
+            <div data-role="collapsible">
+                <h1>Inventory</h1>
+                <ul data-role="listview">
+                    <li><a href="#inventory-items-search">Search Items</a></li>
+                    <li><a href="#inventory-items-locate">Locate Items</a></li>
+                </ul>
+                <br />
+                <ul data-role="listview">
+                    <li><a href="#inventory-categories-search">Search Categories</a></li>
+                </ul>
+            </div>
+            <div data-role="collapsible">
+                <h1>Rentals</h1>
+                <ul data-role="listview">
+                    <li><a href="#inventory-items-search">Search Contracts</a></li>
+                    <li><a href="#inventory-items-search">View Customer Contracts</a></li>
+                </ul>
+                <br />
+                <ul data-role="listview">
+                    <li><a href="#inventory-categories-search">Search Jobs</a></li>
+                    <li><a href="#inventory-categories-search">View Customer Jobs</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/inventory/items/search.js"></script>
+
+    <div id="inventory-items-search" data-role="page" data-bind="with: inventoryItemsSearch">
+        <div data-role="header">
+            <h1>Search Items</h1>
+            <a href="#home" data-iconpos="notext" data-icon="home" data-role="button"></a>
+        </div>
+        <input type="text" placeholder="search term" data-bind="value: term, valueUpdate: 'keyup', event: { keyup: keyUp }" />
+        <div data-bind="text: summary"></div>
+        <br />
+        <div data-bind="foreach: results">
+            <div data-bind="text: Code"></div>
+            <div>
+                <span data-bind="text: TotalOnHand"></span><span>&nbsp;of&nbsp;</span><span data-bind="text: TotalInventory"></span><span>&nbsp;available</span>
+            </div>
+            <div data-bind="text: Description"></div>
+            <br />
+        </div>
+        <button data-bind="visible: showMore, event: { click: append }">More</button>
+    </div>
+
+    <script src="scripts/inventory/items/locate.js"></script>
+
+    <div id="inventory-items-locate" data-role="page" data-bind="with: inventoryItemsLocate">
+        <div data-role="header">
+            <h1>Locate Items</h1>
+            <a href="#home" data-iconpos="notext" data-role="button" data-icon="home"></a>
+        </div>
+        <input type="text" placeholder="item" data-bind="value: item, valueUpdate: 'keyup', event: { keyup: keyUp }" />
+        <div data-bind="text: summary"></div>
+        <br />
+        <div data-bind="foreach: results">
+            <div data-bind="text: LocationCode"></div>
+            <div>
+                <span data-bind="text: TotalOnHand"></span><span>&nbsp;available&nbsp;</span>
+            </div>
+            <div>
+                <span data-bind="text: TotalOut"></span><span>&nbsp;on rent&nbsp;</span>
+            </div>
+            <br />
+        </div>
+    </div>
+
+    <div id="inventory-categories-search" data-role="page" data-bind="with: inventoryCategoriesSearch">
+        <div data-role="header">
+            <h1>Search Categories</h1>
+            <a href="#home" data-iconpos="notext" data-role="button" data-icon="home"></a>
+        </div>
+    </div>
+</body>
+</html>
