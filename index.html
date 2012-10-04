@@ -11,8 +11,8 @@
     <!--<script src="//Microsoft.WinJS.1.0/js/ui.js"></script>-->
 
     <!-- PhoneGap references -->
-  <script src="cordova-2.0.0.js"></script>
-  
+    <script src="scripts/cordova-2.1.0.js"></script>
+
     <!-- jQuery references -->
     <script src="scripts/jquery-1.8.2.min.js"></script>
 
@@ -23,9 +23,7 @@
     <script src="scripts/init.js"></script>
 
     <!-- jQuery Mobile references -->
-    <link href="content/jquery.mobile.structure-1.1.1.min.css" rel="stylesheet" />
     <link href="content/jquery.mobile-1.1.1.min.css" rel="stylesheet" />
-    <link href="content/themes/dark/dark.css" rel="stylesheet" />
 
     <script src="scripts/jquery.mobile-1.1.1.min.js"></script>
 </head>
@@ -37,30 +35,18 @@
             <h1>Rental Application</h1>
         </div>
 
-        <div data-role="collapsible-set">
-            <div data-role="collapsible">
-                <h1>Inventory</h1>
-                <ul data-role="listview">
-                    <li><a href="#inventory-items-search">Search Items</a></li>
-                    <li><a href="#inventory-items-locate">Locate Items</a></li>
-                </ul>
-                <br />
-                <ul data-role="listview">
-                    <li><a href="#inventory-categories-search">Search Categories</a></li>
-                </ul>
-            </div>
-            <div data-role="collapsible">
-                <h1>Rentals</h1>
-                <ul data-role="listview">
-                    <li><a href="#inventory-items-search">Search Contracts</a></li>
-                    <li><a href="#inventory-items-search">View Customer Contracts</a></li>
-                </ul>
-                <br />
-                <ul data-role="listview">
-                    <li><a href="#inventory-categories-search">Search Jobs</a></li>
-                    <li><a href="#inventory-categories-search">View Customer Jobs</a></li>
-                </ul>
-            </div>
+        <div data-role="content">
+            <ul data-role="listview">
+                <li data-role="list-divider">Inventory</li>
+                <li><a href="#inventory-items-search">Search Items</a></li>
+                <li><a href="#inventory-items-locate">Locate Items</a></li>
+                <li><a href="#inventory-categories-search">Search Categories</a></li>
+                <li data-role="list-divider">Rentals</li>
+                <li><a href="#inventory-items-search">Search Contracts</a></li>
+                <li><a href="#inventory-items-search">View Customer Contracts</a></li>
+                <li><a href="#inventory-categories-search">Search Jobs</a></li>
+                <li><a href="#inventory-categories-search">View Customer Jobs</a></li>
+            </ul>
         </div>
     </div>
 
@@ -69,20 +55,36 @@
     <div id="inventory-items-search" data-role="page" data-bind="with: inventoryItemsSearch">
         <div data-role="header">
             <h1>Search Items</h1>
-            <a href="#home" data-iconpos="notext" data-icon="home" data-role="button"></a>
+            <a data-icon="back" data-role="button" data-rel="back" data-bind="visible: $parent.showHeaderButtons">Back</a>
         </div>
-        <input type="text" placeholder="search term" data-bind="value: term, valueUpdate: 'keyup', event: { keyup: keyUp }" />
-        <div data-bind="text: summary"></div>
-        <br />
-        <div data-bind="foreach: results">
-            <div data-bind="text: Code"></div>
-            <div>
-                <span data-bind="text: TotalOnHand"></span><span>&nbsp;of&nbsp;</span><span data-bind="text: TotalInventory"></span><span>&nbsp;available</span>
+        <div data-role="content">
+            <div data-role="fieldcontain">
+                <label>Search Term</label>
+                <input type="text" data-bind="value: term, valueUpdate: 'keyup', event: { keyup: keyUp }" />
             </div>
-            <div data-bind="text: Description"></div>
-            <br />
+            <div data-role="fieldcontain" data-bind="visible: showSummary">
+                <div data-bind="text: summary"></div>
+            </div>
+            <div data-role="fieldcontain" data-bind="visible: showResults">
+                <ul id="inventory-items-search-results" data-role="listview" data-bind="foreach: results">
+                    <li data-role="list-divider">
+                        <div data-bind="text: Code"></div>
+                    </li>
+                    <li>
+                        <p data-bind="text: Available"></p>
+                        <div data-bind="text: Description"></div>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="fieldcontain">
+                <div data-bind="visible: showMore">
+                    <a data-role="button" data-bind="event: { click: append }">More</a>
+                </div>
+                <div data-bind="visible: showTop">
+                    <a data-role="button" data-bind="event: { click: function() { $('html, body').animate({scrollTop:0}, 400, 'swing'); } }">Top</a>
+                </div>
+            </div>
         </div>
-        <button data-bind="visible: showMore, event: { click: append }">More</button>
     </div>
 
     <script src="scripts/inventory/items/locate.js"></script>
@@ -90,7 +92,7 @@
     <div id="inventory-items-locate" data-role="page" data-bind="with: inventoryItemsLocate">
         <div data-role="header">
             <h1>Locate Items</h1>
-            <a href="#home" data-iconpos="notext" data-role="button" data-icon="home"></a>
+            <a data-icon="back" data-role="button" data-rel="back">Back</a>
         </div>
         <input type="text" placeholder="item" data-bind="value: item, valueUpdate: 'keyup', event: { keyup: keyUp }" />
         <div data-bind="text: summary"></div>
@@ -107,10 +109,10 @@
         </div>
     </div>
 
-    <div id="inventory-categories-search" data-role="page" data-bind="with: inventoryCategoriesSearch">
+    <div id="inventory-categories-search" data-role="page">
         <div data-role="header">
             <h1>Search Categories</h1>
-            <a href="#home" data-iconpos="notext" data-role="button" data-icon="home"></a>
+            <a data-icon="back" data-role="button" data-rel="back">Back</a>
         </div>
     </div>
 </body>

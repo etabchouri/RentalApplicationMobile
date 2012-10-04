@@ -3,12 +3,15 @@
 
     self.term = ko.observable('');
     self.summary = ko.observable('');
+    self.showSummary = ko.computed(function () { return this.summary && this.summary() && this.summary().length > 0; }, this);
     self.results = ko.observableArray([]);
+    self.showResults = ko.computed(function () { return this.results && this.results() && this.results().length > 0; }, this);
     self.showMore = ko.observable(false);
     self.showTop = ko.observable(false);
     self.lastTerm = ko.observable('');
     self.index = ko.observable(0);
     self.size = ko.observable(25);
+    self.count = ko.observable(0);
     self.keyUp = function (data, e) {
         if (e.keyCode == 13) {
             self.search();
@@ -16,6 +19,7 @@
     };
     self.search = function () {
         self.showMore(false);
+        self.showTop(false);
         self.results([]);
 
         if (self.term()) {
@@ -36,9 +40,10 @@
             })
             .done(
             function (data, textStatus, jqXHR) {
+                self.count(data.d.__count);
                 self.summary(data.d.__count + ' items match \"' + self.term() + '\"');
-                self.index(0);
                 self.lastTerm(self.term());
+                self.index(0);
                 self.append();
             });
         }
@@ -63,7 +68,8 @@
             function (data, textStatus, jqXHR) {
 
                 for (var i in data.d) {
-                    self.results.push(data.d[i]);
+                    var item = data.d[i];
+                    self.results.push({ Code: item.Code, Description: item.Description, Available: item.TotalOnHand + " of " + item.TotalInventory + " available" });
                 }
 
                 if (data.d.length == self.size()) {
@@ -72,10 +78,13 @@
                 else {
                     self.showMore(false);
                 }
+
+                self.showTop(self.results().length >= self.size());
             })
             .always(
             function () {
                 self.index(self.index() + 1);
+                $('#inventory-items-search [data-bind="foreach: results"]').listview('refresh');
             });
         }
     };
