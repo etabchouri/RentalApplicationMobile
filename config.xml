@@ -8,4 +8,5 @@
   <author href="http://www.corpservice.com" email="support@corpservice.com">
     Tim Lajaunie
   </author>
+  <preference name="phonegap-version" value="1.9.0" />
 </widget>
