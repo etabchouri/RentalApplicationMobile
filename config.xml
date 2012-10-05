@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.corporateservices.rentalapplicationmobile"
+        version   = "0.0.1">
+  <name>Rental Application Mobile</name>
+  <description>Corporate Services' Rental Application Mobile</description>
+  <author href="http://www.corpservice.com" email="support@corpservice.com">
+    Tim Lajaunie
+  </author>
+</widget>
